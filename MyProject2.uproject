@@ -9,7 +9,7 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine"
+				"PhysXVehicles"
 			]
 		}
 	],
@@ -20,10 +20,6 @@
 		},
 		{
 			"Name": "RawInput",
-			"Enabled": true
-		},
-		{
-			"Name": "ChaosVehiclesPlugin",
 			"Enabled": true
 		}
 	]
