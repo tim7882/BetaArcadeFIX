@@ -88,9 +88,4 @@ void UAICarMovement::RequestDirectMove(const FVector& MoveVelocity, bool ForceMa
 
 void UAICarMovement::StopActiveMovement()
 {
-	Super::StopActiveMovement();
-	InitialLocation = GetOwner()->GetActorLocation();
-	InitialDirection = GetOwner()->GetActorForwardVector();
-	SetHandbrakeInput(true);
-	SetThrottleInput(0.f);
 }
