@@ -3,70 +3,71 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WheeledVehicleMovementComponent4W.h"
+#include "SimpleWheeledVehicleMovementComponent.h"
 #include "AICarMovement.generated.h"
 
-
 USTRUCT()
-struct PIDController
+struct FPIDController
 {
 	GENERATED_BODY()
 
-		UPROPERTY(editAnywhere, Catagory = "PID")
-		float Proportinal;
+		UPROPERTY(EditAnywhere, Category = "PID")
+		float Proportional;
 
-		UPROPERTY(editAnywhere, Catagory = "PID")
+		UPROPERTY(EditAnywhere, Category = "PID")
 		float Integral;
 
-		UPROPERTY(editAnywhere, Catagory = "PID")
+		UPROPERTY(EditAnywhere, Category = "PID")
 		float Derivative;
 
-		UPROPERTY(editAnywhere, Catagory = "PID")
+		UPROPERTY(EditAnywhere, Category = "PID")
 		float ErrorMin;
 
-		UPROPERTY(editAnywhere, Catagory = "PID")
+		UPROPERTY(EditAnywhere, Category = "PID")
 		float ErrorMax;
 
-		float ErrorSum;
-		float LastPos;
+	float ErrorSum;
+	float LastPos;
 
-		PIDController() {}
+	FPIDController() {}
 
-		PIDController(float P, float I, float D, float ErrorMin, float ErrorMax)
-		{
-			Proportinal = P;
-			Integral = I;
-			Derivative = D;
-			this->ErrorMin = ErrorMin;
-			this->ErrorMax = ErrorMax;
-		}
+	FPIDController(float P, float I, float D, float ErrorMin, float ErrorMax)
+	{
+		Proportional = P;
+		Integral = I;
+		Derivative = D;
+		this->ErrorMin = ErrorMin;
+		this->ErrorMax = ErrorMax;
+	}
 
-		float CalcNewInput(float Error, float Pos);
+	float CalcNewInput(float Error, float Pos);
 
 };
 
 /**
  * 
  */
+
 UCLASS()
-class MYPROJECT2_API UAICarMovement : public UWheeledVehicleMovementComponent4W
+class MYPROJECT2_API UAICarMovement : public USimpleWheeledVehicleMovementComponent
 {
 	GENERATED_BODY()
 
 		UPROPERTY(EditAnywhere, Category = "PID")
-		PIDController ThrottleController = PIDController(0.f, 0.f, 0.f, 0.f, 0.f);
+		FPIDController ThrottleController = FPIDController(0.f, 0.f, 0.f, 0.f, 0.f);
 
 		UPROPERTY(EditAnywhere, Category = "PID")
-		PIDController SteeringController = PIDController(0, 0, 0, 0, 0);
+		FPIDController SteeringController = FPIDController(0, 0, 0, 0, 0);
 
-		FVector InitialLocation;
-		FVector InitialDirection;
-		bool turningAround = false;
+	FVector InitialLocation;
+	FVector InitialDirection;
+	bool turningAround = false;
 
 public:
 
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool ForceMaxSpeed) override;
 	virtual void StopActiveMovement() override;
+	
 
- 	
+
 };

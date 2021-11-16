@@ -5,11 +5,10 @@
 #include "DrawDebughelpers.h"
 #include "Engine/World.h"
 
-float PIDController::CalcNewInput(float Error, float Pos)
+float FPIDController::CalcNewInput(float Error, float Pos)
 {
-
 	ErrorSum = FMath::Clamp(Error + ErrorSum, ErrorMin, ErrorMax);
-	float Input = Error * Proportinal + ErrorSum * Integral + Derivative * (LastPos - Pos);
+	float Input = Error * Proportional + ErrorSum * Integral + Derivative * (LastPos - Pos);
 	LastPos = Pos;
 	return Input;
 }
@@ -17,7 +16,7 @@ float PIDController::CalcNewInput(float Error, float Pos)
 void UAICarMovement::RequestDirectMove(const FVector& MoveVelocity, bool ForceMaxSpeed)
 {
 	Super::RequestDirectMove(MoveVelocity, ForceMaxSpeed);
-	
+
 
 	FVector VehicleLocation = GetOwner()->GetActorLocation();
 	FVector Destination = VehicleLocation + MoveVelocity * GetWorld()->GetDeltaSeconds();
@@ -86,6 +85,12 @@ void UAICarMovement::RequestDirectMove(const FVector& MoveVelocity, bool ForceMa
 
 }
 
+
 void UAICarMovement::StopActiveMovement()
 {
+	Super::StopActiveMovement();
+	InitialLocation = GetOwner()->GetActorLocation();
+	InitialDirection = GetOwner()->GetActorForwardVector();
+	SetHandbrakeInput(true);
+	SetThrottleInput(0.f);
 }
