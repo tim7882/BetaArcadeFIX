@@ -72,7 +72,7 @@ void UAICarMovement::RequestDirectMove(const FVector& MoveVelocity, bool ForceMa
 	float SteeringPos = (-CurrentYaw + 180) / 180;
 	float SteeringError = 1 - SteeringPos;
 
-	float SteeringInput = SteeringController.CalcNewInput(SteeringError, SteeringPos);
+ 	float steeringInput = SteeringController.CalcNewInput(SteeringError, SteeringPos);
 	if (turningAround)
 	{
 		SetSteeringInput(SteeringError > 0 ? -1.f : 1.f);
