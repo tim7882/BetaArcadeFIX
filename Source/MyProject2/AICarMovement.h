@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SimpleWheeledVehicleMovementComponent.h"
+#include "ChaosVehicleMovementComponent.h"
 #include "AICarMovement.generated.h"
+
 
 USTRUCT()
 struct FPIDController
@@ -25,6 +26,7 @@ struct FPIDController
 
 		UPROPERTY(EditAnywhere, Category = "PID")
 		float ErrorMax;
+
 
 	float ErrorSum;
 	float LastPos;
@@ -47,9 +49,8 @@ struct FPIDController
 /**
  * 
  */
-
 UCLASS()
-class MYPROJECT2_API UAICarMovement : public USimpleWheeledVehicleMovementComponent
+class MYPROJECT2_API UAICarMovement : public UChaosVehicleMovementComponent
 {
 	GENERATED_BODY()
 
@@ -58,16 +59,14 @@ class MYPROJECT2_API UAICarMovement : public USimpleWheeledVehicleMovementCompon
 
 		UPROPERTY(EditAnywhere, Category = "PID")
 		FPIDController SteeringController = FPIDController(0, 0, 0, 0, 0);
-
-	FVector InitialLocation;
-	FVector InitialDirection;
-	bool turningAround = false;
+	
+		FVector InitialLocation;
+		FVector InitialDirection;
+		bool turningAround = false;
 
 public:
 
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool ForceMaxSpeed) override;
 	virtual void StopActiveMovement() override;
 	
-
-
 };

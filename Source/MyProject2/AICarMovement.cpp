@@ -2,11 +2,13 @@
 
 
 #include "AICarMovement.h"
+
 #include "DrawDebughelpers.h"
 #include "Engine/World.h"
 
 float FPIDController::CalcNewInput(float Error, float Pos)
 {
+
 	ErrorSum = FMath::Clamp(Error + ErrorSum, ErrorMin, ErrorMax);
 	float Input = Error * Proportional + ErrorSum * Integral + Derivative * (LastPos - Pos);
 	LastPos = Pos;
@@ -72,19 +74,18 @@ void UAICarMovement::RequestDirectMove(const FVector& MoveVelocity, bool ForceMa
 	float SteeringPos = (-CurrentYaw + 180) / 180;
 	float SteeringError = 1 - SteeringPos;
 
- 	float steeringInput = SteeringController.CalcNewInput(SteeringError, SteeringPos);
+	float SteerInput = SteeringController.CalcNewInput(SteeringError, SteeringPos);
 	if (turningAround)
 	{
 		SetSteeringInput(SteeringError > 0 ? -1.f : 1.f);
 	}
 	else
 	{
-		SetSteeringInput(SteeringInput);
+		SetSteeringInput(SteerInput);
 	}
 	SetHandbrakeInput(false);
 
 }
-
 
 void UAICarMovement::StopActiveMovement()
 {
